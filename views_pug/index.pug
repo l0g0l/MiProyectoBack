@@ -1,0 +1,37 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Lista de la compra
+    body 
+        main    
+            form(action="/createproduct" method="POST") 
+                input(type="text" name="producto" placeholder="Añade un producto")
+                button(type="submit")
+            // este each ...in es como un for que itera en cada elemento
+            ul
+                each item in Producto
+                    li= item.descripcion
+                    -let id = item.ID
+                        div
+                            
+                            if(item.comprado==0)
+                                form(action=`/actualizar/${id}` method="POST")
+                                    input(onChange="this.form.submit()" type="checkbox" value="1" name="comprado")
+                            else 
+                                form(action=`/actualizar/${id}` method="POST")
+                                    input(onChange="this.form.submit()" type="checkbox" value="0"  name="comprado" checked)
+                                    input(type="hidden" value="0"  name="comprado") 
+                                    // html post  unchecked checkbox, el checked no deja que cambie el esttado de 0 a 1 en la BBDD, he tenido que añadir otro input tipo hidden para que lo coja
+
+
+                            form(action=`/removeproduct/${id}?_method=DELETE` id="form" method="POST", class="eliminar")
+                                button(type="submit", value="eliminar") E
+                        
+    
+    
+
+    
+    script(src="/js/script.js")
